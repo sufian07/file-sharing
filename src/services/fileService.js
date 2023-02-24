@@ -35,10 +35,10 @@ class FileService {
     const metadata = await fileRepository.getFileByPrivateKey(privateKey);
 
     if (!metadata) {
-      return null;
+      throw new Error('File not found');
     }
-
-    await this.fileAccessRepository.remove(privateKey);
+    const { publicKey } = metadata;
+    await this.fileAccessRepository.remove(publicKey);
     await fileRepository.deleteFileByPrivateKey(privateKey);
 
     return { message: 'File deleted successfully.' };

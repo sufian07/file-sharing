@@ -25,10 +25,11 @@ app.use('/files', fileRoutes);
 mongoose.set('strictQuery', false);
 
 // start the server
-app.listen(port, async () => {
+const server = app.listen(port, async () => {
     // start the file cleanup job
     // cleanupJob.start();
     console.log(`Server running on port ${port}`);
     await mongoose.connect(mongoDB);
 });
 
+module.exports = {app, server};

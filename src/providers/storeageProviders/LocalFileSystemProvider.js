@@ -19,12 +19,11 @@ class LocalFileSystemProvider {
 
   async download(publicKey) {
     const filePath = path.join(this.rootFolder, publicKey);
-    console.log(filePath);
     return fs.createReadStream(filePath);
   }
 
-  async remove(privateKey) {
-    const filePath = path.join(this.rootFolder, privateKey);
+  async remove(publicKey) {
+    const filePath = path.join(this.rootFolder, publicKey);
     await fs.promises.unlink(filePath);
   }
 }

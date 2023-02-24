@@ -1,10 +1,14 @@
 const request = require('supertest');
-const app = require('../app');
+const path = require('path');
+const {app, server} = require('../app');
 
 describe('File controller integration tests', () => {
+  afterAll(async () => {
+    server?.close();
+  });
   const file = {
     name: 'test.txt',
-    path: '.uploads/8baded63-80a7-4311-b086-251818909deb',
+    path: path.resolve(__dirname, './test.txt'),
   };
   let publicKey;
   let privateKey;
@@ -30,7 +34,7 @@ describe('File controller integration tests', () => {
         .expect(200);
 
       expect(res.headers['content-type']).toBe('text/plain');
-      expect(res.text).toBe('Test file content');
+      expect(res.text).toBe('This file iis to test file upload');
     });
   });
 
@@ -40,7 +44,7 @@ describe('File controller integration tests', () => {
         .delete(`/files/${privateKey}`)
         .expect(200);
 
-      expect(res.body).toEqual({ message: 'File deleted successfully' });
+      expect(res.body).toEqual({ message: 'File deleted successfully.' });
     });
   });
 });

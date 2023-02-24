@@ -14,8 +14,8 @@ class FileAccessRepository {
       return this.storageProvider.download(publicKey);
     }
   
-    async remove(privateKey) {
-      await this.storageProvider.remove(privateKey);
+    async remove(publicKey) {
+      await this.storageProvider.remove(publicKey);
       return { message: "File removed successfully" };
     }
   }
