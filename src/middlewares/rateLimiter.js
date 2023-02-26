@@ -1,22 +1,23 @@
 const rateLimit = require("express-rate-limit");
-const redis = require("redis");
-const client = redis.createClient();
+const MAX_UPLOADS_PER_IP = process.env.MAX_UPLOADS_PER_IP || 5;
+const MAX_DOWNLOADS_PER_IP = process.env.MAX_DOWNLOADS_PER_IP || 5;
 
-const dailyUploadLimit = 100 * 1024 * 1024; // 100 MB
-const dailyDownloadLimit = 500 * 1024 * 1024; // 500 MB
-
-const rateLimiter = rateLimit({
-  store: new RedisStore({ client }),
-  max: dailyDownloadLimit,
+const downloadLimiter = rateLimit({
+  max: MAX_DOWNLOADS_PER_IP,
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
   keyGenerator: (req) => req.ip + "_download",
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false,
+  message: 'Daily download limit is completed, try again tomorrow'
 });
 
 const uploadLimiter = rateLimit({
-  store: new RedisStore({ client }),
-  max: dailyUploadLimit,
+  max: MAX_UPLOADS_PER_IP,
   windowMs: 24 * 60 * 60 * 1000, // 24 hours
   keyGenerator: (req) => req.ip + "_upload",
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false,
+  message: 'Daily upload limit is completed, try again tomorrow'
 });
 
-module.exports= {uploadLimiter, rateLimiter};
+module.exports= {downloadLimiter, uploadLimiter};

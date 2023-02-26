@@ -1,5 +1,5 @@
-const fileRepository = require('../repositories/fileRepository.js');
-const FileAccessRepository = require('../repositories/fileAccessRepository');
+const fileRepository = require('../repositories/FileRepository.js');
+const FileAccessRepository = require('../repositories/FileAccessRepository');
 const ProviderFactory = require('../factories/ProviderFactory');
 const storage = require('../configs/storage');
 
