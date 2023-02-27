@@ -13,7 +13,7 @@ class FileRepository {
   }
 
   static async getFileByPublicKey(publicKey) {
-    return FileModel.findOne({ publicKey });
+    return FileModel.findOneAndUpdate({ publicKey }, { visitedOn: new Date() }, { new: true });
   }
 
   static async getFileByPrivateKey(privateKey) {

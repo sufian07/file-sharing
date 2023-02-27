@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 const cleanupSchedule = process.env.CLEANUP_SCHEDULE || '0 0 * * *'; // default to running every day at midnight
-
 const cleanupJob = new cron.CronJob(cleanupSchedule, async function() {
+  console.log('File clean up cron is starting ', new Date());
   const filesDir = './uploads'; // directory where uploaded files are stored
   const inactivePeriod = process.env.INACTIVE_PERIOD || 7; // default to cleaning up files that have been inactive for 7 days
 

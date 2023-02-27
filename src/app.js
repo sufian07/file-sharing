@@ -1,9 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-const fileRoutes = require('./routes/fileRoutes.js');
-const cleanupJob = require('./jobs/cleanJob');
-require('dotenv').config();
+const fileRoutes = require('./routes/file.routes.js');
+const cleanupJob = require('./jobs/clean-job');
 const app = express();
 const port = process.env.PORT || 3000;
 // middleware

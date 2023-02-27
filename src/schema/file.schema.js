@@ -7,6 +7,7 @@ const fileSchema = new mongoose.Schema({
   mimeType: { type: String, required: true },
   size: { type: Number, required: true },
   createdOn: { type: Date, default: Date.now },
+  visitedOn: { type: Date, default: Date.now },
 });
 
 module.exports = mongoose.model('File', fileSchema);

@@ -1,7 +1,7 @@
 const express = require('express');
 const multer = require('multer');
-const fileController = require('../controllers/fileController.js');
-const { uploadLimiter, downloadLimiter } = require('../middlewares/rateLimiter.js');
+const fileController = require('../controllers/file.controller.js');
+const { uploadLimiter, downloadLimiter } = require('../middlewares/rate-limiter.js');
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
-const fileRepository = require('../repositories/FileRepository.js');
-const FileAccessRepository = require('../repositories/FileAccessRepository');
-const ProviderFactory = require('../factories/ProviderFactory');
+const fileRepository = require('../repositories/file.repository.js');
+const FileAccessRepository = require('../repositories/file-access.repository');
+const ProviderFactory = require('../factories/provider.factory');
 const storage = require('../configs/storage');
 
 class FileService {
@@ -22,7 +22,7 @@ class FileService {
     const metadata = await fileRepository.getFileByPublicKey(publicKey);
 
     if (!metadata) {
-      return null;
+      throw new Error('File not found');
     }
     const { mimeType } = metadata;
   

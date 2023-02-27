@@ -1,4 +1,4 @@
-const fileService = require('../services/FileService.js')
+const fileService = require('../services/file.service.js')
 
 exports.uploadFile = async (req, res) => {
   try {
