@@ -19,6 +19,10 @@ class FileService {
     return { privateKey, publicKey };
   }
 
+  async getInactiveFiles(inactivePeriod) {
+    return fileRepository.getInactiveFiles(inactivePeriod);
+  }
+
   async getFile (publicKey) {
     const metadata = await fileRepository.getFileByPublicKey(publicKey);
 
@@ -42,7 +46,7 @@ class FileService {
     await this.fileAccessRepository.remove(publicKey);
     await fileRepository.deleteFileByPrivateKey(privateKey);
 
-    return { message: 'File deleted successfully.' };
+    return { message: `File with private key ${privateKey} deleted successfully.` };
   }
 }
 

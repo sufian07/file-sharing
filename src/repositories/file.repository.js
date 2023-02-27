@@ -1,3 +1,4 @@
+const subDays = require('date-fns/subDays')
 const FileModel = require('../schema/file.schema');
 class FileRepository {
   static async createFile(publicKey, privateKey, originalName, mimeType, size) {
@@ -14,6 +15,11 @@ class FileRepository {
 
   static async getFileByPublicKey(publicKey) {
     return FileModel.findOneAndUpdate({ publicKey }, { visitedOn: new Date() }, { new: true });
+  }
+
+  static async getInactiveFiles(inactivePeriod) {
+    const date = subDays(new Date(), inactivePeriod);
+    return FileModel.find({ visitedOn: { $lt : date } });
   }
 
   static async getFileByPrivateKey(privateKey) {
