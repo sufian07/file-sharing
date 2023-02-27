@@ -1,0 +1,38 @@
+version: '3.8'
+services:
+    app:
+        container_name: fs-app
+        build: .
+        command: npm run dev
+        ports:
+            - ${APP_PORT}:3000
+        volumes:
+            - .:/usr/app
+            - ./node_modules:/usr/app/node_modules
+        restart: unless-stopped
+        links:
+            - mongo
+            - mongoExpress
+    mongo:
+        image: mongo:latest
+        container_name: fs-mongo
+        ports:
+            - ${MONGO_PORT}:27017
+        environment:
+            - MONGO_INITDB_DATABASE=${MONGO_DATABASE}
+            - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+            - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+        volumes:
+            - ./db:/data/db
+        command: [--auth]
+
+    mongoExpress:
+        image: mongo-express
+        container_name: fs-mongo-express
+        ports:
+            - ${MONGO_EXPRESS_UI_PORT}:8081
+        environment:
+            ME_CONFIG_OPTIONS_EDITORTHEME: 'ambiance'
+            ME_CONFIG_MONGODB_URL: mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@mongo:27017/
+        links:
+            - mongo
