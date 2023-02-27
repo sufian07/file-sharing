@@ -1,7 +1,8 @@
-const fileRepository = require('../repositories/FileRepository.js');
-const FileAccessRepository = require('../repositories/FileAccessRepository');
-const ProviderFactory = require('../factories/ProviderFactory');
+const fileRepository = require('../repositories/file.repository.js');
+const FileAccessRepository = require('../repositories/file-access.repository');
+const ProviderFactory = require('../factories/provider.factory');
 const storage = require('../configs/storage');
+const ApiError = require('../class/api-error.class.js');
 
 class FileService {
 
@@ -18,11 +19,15 @@ class FileService {
     return { privateKey, publicKey };
   }
 
+  async getInactiveFiles(inactivePeriod) {
+    return fileRepository.getInactiveFiles(inactivePeriod);
+  }
+
   async getFile (publicKey) {
     const metadata = await fileRepository.getFileByPublicKey(publicKey);
 
     if (!metadata) {
-      return null;
+      throw ApiError.NotFound('File not found');
     }
     const { mimeType } = metadata;
   
@@ -35,13 +40,13 @@ class FileService {
     const metadata = await fileRepository.getFileByPrivateKey(privateKey);
 
     if (!metadata) {
-      throw new Error('File not found');
+      throw ApiError.NotFound('File not found');
     }
     const { publicKey } = metadata;
     await this.fileAccessRepository.remove(publicKey);
     await fileRepository.deleteFileByPrivateKey(privateKey);
 
-    return { message: 'File deleted successfully.' };
+    return { message: `File with private key ${privateKey} deleted successfully.` };
   }
 }
 

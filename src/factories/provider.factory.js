@@ -1,5 +1,5 @@
-const GoogleCloudStorageProvider = require("../providers/storeageProviders/GoogleCloudStorageProvider");
-const LocalFileSystemProvider = require("../providers/storeageProviders/LocalFileSystemProvider");
+const GoogleCloudStorageProvider = require("../providers/storeageProviders/google-cloud-storage.provider");
+const LocalFileSystemProvider = require("../providers/storeageProviders/local-file-system.provider");
 
 class ProviderFactory {
   static createProvider(providerType, config) {
