@@ -1,17 +1,16 @@
 const fileService = require('../services/file.service.js')
 
-exports.uploadFile = async (req, res) => {
+exports.uploadFile = async (req, res, next) => {
   try {
     const file = req.file
     const result = await fileService.uploadFile(file)
     res.status(201).json(result)
   } catch(error) {
-    res.status(error.status || 500);
-    res.json({msg: error.message})
+    next(error);
   }
 }
 
-exports.downloadFile = async (req, res) => {
+exports.downloadFile = async (req, res, next) => {
   try {
     const publicKey = req.params.publicKey
     // Create a read stream for the file and pipe it to the response stream
@@ -20,18 +19,16 @@ exports.downloadFile = async (req, res) => {
     res.setHeader('Content-Disposition', `attachment; filename=${publicKey}`);
     return fileStream.pipe(res);
   } catch(error) {
-    res.status(error.status || 500);
-    res.json({msg: error.message})
+    next(error);
   }
 }
 
-exports.deleteFile = async (req, res) => {
+exports.deleteFile = async (req, res, next) => {
   try {
     const privateKey = req.params.privateKey
     const result = await fileService.deleteFile(privateKey)
     res.json(result)
   } catch(error) {
-    res.status(error.status || 500);
-    res.json({msg: error.message})
+    next(error);
   }
 }

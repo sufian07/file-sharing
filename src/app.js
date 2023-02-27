@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const fileRoutes = require('./routes/file.routes.js');
 const cleanupJob = require('./jobs/clean-job');
+const errorHandler = require('./middlewares/error-handler.middleware.js');
 const app = express();
 const port = process.env.PORT || 3000;
 // middleware
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/files', fileRoutes);
+app.use(errorHandler);
 
 // start the server
 const server = app.listen(port, async () => {

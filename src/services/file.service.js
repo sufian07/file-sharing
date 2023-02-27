@@ -2,6 +2,7 @@ const fileRepository = require('../repositories/file.repository.js');
 const FileAccessRepository = require('../repositories/file-access.repository');
 const ProviderFactory = require('../factories/provider.factory');
 const storage = require('../configs/storage');
+const ApiError = require('../class/api-error.class.js');
 
 class FileService {
 
@@ -22,7 +23,7 @@ class FileService {
     const metadata = await fileRepository.getFileByPublicKey(publicKey);
 
     if (!metadata) {
-      throw new Error('File not found');
+      throw ApiError.NotFound('File not found');
     }
     const { mimeType } = metadata;
   
@@ -35,7 +36,7 @@ class FileService {
     const metadata = await fileRepository.getFileByPrivateKey(privateKey);
 
     if (!metadata) {
-      throw new Error('File not found');
+      throw ApiError.NotFound('File not found');
     }
     const { publicKey } = metadata;
     await this.fileAccessRepository.remove(publicKey);
