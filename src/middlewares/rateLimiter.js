@@ -8,7 +8,7 @@ const downloadLimiter = rateLimit({
   keyGenerator: (req) => req.ip + "_download",
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false,
-  message: 'Daily download limit is completed, try again tomorrow'
+  message: 'Daily download limit is reached, try again tomorrow'
 });
 
 const uploadLimiter = rateLimit({
@@ -17,7 +17,7 @@ const uploadLimiter = rateLimit({
   keyGenerator: (req) => req.ip + "_upload",
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
 	legacyHeaders: false,
-  message: 'Daily upload limit is completed, try again tomorrow'
+  message: 'Daily upload limit is reached, try again tomorrow'
 });
 
 module.exports= {downloadLimiter, uploadLimiter};

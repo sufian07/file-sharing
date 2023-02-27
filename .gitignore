@@ -3,3 +3,4 @@ uploads
 node_modules
 backup*.js
 .env
+db
