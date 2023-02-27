@@ -13,7 +13,7 @@ class GoogleCloudStorageProvider {
     const privateKey = uuidv4();
     const publicKey = uuidv4();
     const bucket = this.storage.bucket(this.bucketName);
-    const fileObj = bucket.file(privateKey);
+    const fileObj = bucket.file(publicKey);
     await fileObj.save(file.buffer, { contentType: file.mimetype });
     return { publicKey, privateKey };
   }
@@ -28,9 +28,9 @@ class GoogleCloudStorageProvider {
     return fileObj.createReadStream();
   }
 
-  async remove(privateKey) {
+  async remove(publicKey) {
     const bucket = this.storage.bucket(this.bucketName);
-    const fileObj = bucket.file(privateKey);
+    const fileObj = bucket.file(publicKey);
     await fileObj.delete();
   }
 }
