@@ -1,10 +1,15 @@
+require('dotenv').config();
 const request = require('supertest');
 const path = require('path');
-const {app, server} = require('../app');
+const app = require('../app');
+const { setUpDatabase } = require('../db');
 
 describe('File controller integration tests', () => {
+  beforeAll(async ()=>{
+    setUpDatabase();
+  });
   afterAll(async () => {
-    server?.close();
+    // server?.close();
   });
   const file = {
     name: 'test.txt',
@@ -44,7 +49,7 @@ describe('File controller integration tests', () => {
         .delete(`/files/${privateKey}`)
         .expect(200);
 
-      expect(res.body).toEqual({ message: 'File deleted successfully.' });
+      expect(res.body).toEqual({ message: `File with private key ${privateKey} deleted successfully.` });
     });
   });
 });

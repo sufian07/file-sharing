@@ -1,11 +1,52 @@
 version: '3.8'
 services:
-    app:
-        container_name: fs-app
-        build: .
+    development:
+        container_name: fs-development
+        build:
+            context: .
+            target: development
         command: npm run dev
         ports:
             - ${APP_PORT}:3000
+        environment:
+            - ENV=development
+            - MONGO_DATABASE=fs-development
+        volumes:
+            - .:/usr/app
+            - ./node_modules:/usr/app/node_modules
+        restart: unless-stopped
+        links:
+            - mongo
+            - mongoExpress
+    test:
+        container_name: fs-test
+        build:
+            context: .
+            target: test
+        command: npm run test:watch
+        ports:
+            - ${APP_PORT}:3000
+        environment:
+            - ENV=test
+            - MONGO_DATABASE=fs-test
+        volumes:
+            - .:/usr/app
+            - ./node_modules:/usr/app/node_modules
+        restart: unless-stopped
+        links:
+            - mongo
+            - mongoExpress
+    production:
+        container_name: fs-app
+        build:
+            context: .
+            target: production
+        command: npm start
+        ports:
+            - ${APP_PORT}:3000
+        environment:
+            - ENV=production
+            - MONGO_DATABASE=fs
         volumes:
             - .:/usr/app
             - ./node_modules:/usr/app/node_modules
