@@ -12,5 +12,12 @@ const setUpDatabase = async () => {
         console.error(error);
     }
 }
+const closeDatabase = async () => {
+    try {
+        mongoose.connection.close();
+    }catch(error){
+        console.error(error);
+    }
+}
 
-module.exports = {setUpDatabase}
+module.exports = {setUpDatabase, closeDatabase}

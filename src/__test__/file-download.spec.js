@@ -2,14 +2,14 @@ require('dotenv').config();
 const request = require('supertest');
 const path = require('path');
 const app = require('../app');
-const { setUpDatabase } = require('../db');
+const { setUpDatabase, closeDatabase } = require('../db');
 
 describe('File controller integration tests', () => {
   beforeAll(async ()=>{
     setUpDatabase();
   });
   afterAll(async () => {
-    // server?.close();
+    closeDatabase();
   });
   const file = {
     name: 'test.txt',

@@ -6,8 +6,11 @@ const ApiError = require('../class/api-error.class.js');
 
 class FileService {
 
-  constructor(fileAccessRepository) {
-    this.fileAccessRepository = fileAccessRepository;
+  constructor() {
+    const providerType = process.env.PROVIDER || 'local';
+    const config = storage[providerType];
+    const provider = ProviderFactory.createProvider(providerType, config);
+    this.fileAccessRepository = new FileAccessRepository(provider);
   }
 
   async uploadFile (file) {
@@ -47,9 +50,4 @@ class FileService {
   }
 }
 
-const providerType = process.env.PROVIDER || 'local';
-const config = storage[providerType];
-const provider = ProviderFactory.createProvider(providerType, config);
-const fileAccessRepository = new FileAccessRepository(provider);
-
-module.exports = new FileService(fileAccessRepository);
+module.exports = new FileService();

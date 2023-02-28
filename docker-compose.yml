@@ -23,7 +23,7 @@ services:
         build:
             context: .
             target: test
-        command: npm run app:test
+        command: npm run test:watch
         ports:
             - ${APP_PORT}:3000
         environment:
