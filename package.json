@@ -9,7 +9,7 @@
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage --detectOpenHandles",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll --detectOpenHandles"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.9.3",

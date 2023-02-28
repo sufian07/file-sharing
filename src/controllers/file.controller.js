@@ -1,8 +1,13 @@
+const ApiError = require('../class/api-error.class.js')
 const fileService = require('../services/file.service.js')
 
 exports.uploadFile = async (req, res, next) => {
   try {
     const file = req.file
+    // If request do not have file throw 400 error
+    if(!file) {
+      throw ApiError.InvalidRequest('No file uploaded');
+    }
     const result = await fileService.uploadFile(file)
     res.status(201).json(result)
   } catch(error) {
