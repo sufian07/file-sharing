@@ -36,7 +36,7 @@ RUN npm install
 COPY . .
 
 EXPOSE 8080
-CMD [ "npm", "run", "test" ]
+CMD [ "npm", "run", "app:test" ]
 
 FROM node:19.7.0-buster AS production
 

@@ -6,9 +6,11 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "docker-compose down && docker-compose up development",
+    "test": "docker-compose down && docker-compose up test",
+    "app:start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage --detectOpenHandles",
+    "app:test": "node --experimental-vm-modules node_modules/.bin/jest --coverage --detectOpenHandles",
     "test:watch": "jest --watchAll --detectOpenHandles"
   },
   "dependencies": {
